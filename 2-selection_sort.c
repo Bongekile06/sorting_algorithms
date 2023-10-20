@@ -1,44 +1,38 @@
 #include "sort.h"
 
 /**
- * swap_ints - Swap two integers in an array.
- * @a: The first integer to swap.
- * @b: The second integer to swap.
- */
-void swap_ints(int *a, int *b)
-{
-	int tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
-}
-
-/**
- * selection_sort - Sort an array of integers in ascending order
- *                  using the selection sort algorithm.
- * @array: An array of integers.
- * @size: The size of the array.
- *
- * Description: Prints the array after each swap.
+ * selection_sort - sorts an array of integers using a selction sort
+ * algorithm
+ * @array: array of integers to be sorted
+ * @size: amount of elements in array
  */
 void selection_sort(int *array, size_t size)
 {
-	int *min;
-	size_t i, j;
+	int i, j, min_j, temp, n = (int)size;
 
-	if (array == NULL || size < 2)
+	if (!array || size < 2)
 		return;
 
-	for (i = 0; i < size - 1; i++)
+	/* at every position in the n-member array */
+	for (i = 0; i < n - 1; i++)
 	{
-		min = array + i;
-		for (j = i + 1; j < size; j++)
-			min = (array[j] < *min) ? (array + j) : min;
-
-		if ((array + i) != min)
+		/* scan from that position to the end, */
+		min_j = i;
+		for (j = i + 1; j < n; j++)
 		{
-			swap_ints(array + i, min);
+			/* determine the minimum value in that range */
+			if (array[j] < array[min_j])
+			{
+				min_j = j;
+			}
+		}
+		/* and if it is lower than the value at start of range, */
+		/* swap them */
+		if (min_j != i)
+		{
+			temp = array[i];
+			array[i] = array[min_j];
+			array[min_j] = temp;
 			print_array(array, size);
 		}
 	}
